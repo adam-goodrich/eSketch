@@ -88,7 +88,7 @@ function gridSize() {
   let loop = true;
   while (loop) {
       if (!numOfRows) {
-      numOfRows = prompt("Please enter a number");
+      numOfRows = 16;
     } else if (parseInt(numOfRows) > 150)  {
       numOfRows = prompt("Max is 150");
     } else if (parseInt(numOfRows) < 1) {

@@ -1,196 +1,29 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-  <title>eSketch</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-
-  <style>
-    body {
-      background-image: url("images/space.jpg");
-      background-size: 120%;
-
-    }
-
-    .board {
-      justify-content: center;
-      display: grid;
-      width: 600px;
-      height: 600px;
-      margin: 20px auto 0 auto;
-
-
-    }
-
-    button {
-      margin: 30px;
-      border-radius: 15px;
-      font-size: large;
-      box-shadow: 0 .3vw #999;
-      outline: none;
-      width: 160px;
-      
-
-    }
-
-    button:active {
-      box-shadow: 0 2px #666;
-      transform: translateY(2px);
-    }
-
-    header {
-      border-radius: 15px;
-      font-size: 40px;
-      border-style: solid;
-      border-color: black;
-      border-width: 5px;
-      width: 600px;
-      display: block;
-      text-align: center;
-      margin: auto;
-      background-color: azure;
-    }
-
-
-    .btn {
-      display: block;
-      text-align: center;
-    }
-
-  </style>
-</head>
-<body>
-  <div class="main" id="main">
-    <header id="head">Grid Size</header>
-
-    <div id="board" class="board"></div>
-    <div class="btn">
-      <button id="reset">Clear Grid</button>
-      <button id="changeSize">Change Size</button>
-      <button id="black">Black Pixels</button>
-      <button id="rainbow">Rainbow Pixels</button>
-      <button id="trans">Transition Pixels</button>
-      <button id="cleared">Erase Pixels</button>
-
+    <title>eSketch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+    <style></style>
+  </head>
+  <body>
+    <div class="main" id="main">
+      <header id="head">Grid Size</header>
+      <div id="board" class="board"></div>
+      <div class="btn">
+        <button id="reset">Clear Grid</button>
+        <button id="changeSize">Change Size</button>
+        <button id="black">Black Pixels</button>
+        <button id="rainbow">Random Pixels</button>
+        <button id="trans">Transition Pixels</button>
+        <button id="cleared">Erase Pixels</button>
+      </div>
     </div>
-  </div>
-</body>
-
-<script>
-let numOfRows = 16;
-let colorPicker = 0;
-let shade = 100
-
-const size = document.createElement('div');
-size.className = "size"
-size.innerHTML = `${numOfRows} x ${numOfRows}`
-document.getElementById("head").appendChild(size)
-
-
-function makeBoard() {
-    for(x = 0; x < (parseInt(numOfRows) * parseInt(numOfRows)); x++) {
-    const board = document.createElement('div');
-    board.className = "color";
-    board.setAttribute("id", "color")
-    board.style.backgroundColor = "azure"
-    document.getElementById('board').appendChild(board);
-    document.getElementById("board").style.gridTemplateColumns = `repeat(${parseInt(numOfRows)}, ${600 / numOfRows}px)`;
-    document.getElementById("board").style.gridAutoRows = `${600 / parseInt(numOfRows)}px`;
-  }
-  const boxes = Array.from(document.querySelectorAll('.color'));
-  shade = 100
-  boxes.forEach(box => box.addEventListener("mouseover", function() {
-  if (colorPicker == 0) {
-    box.style.backgroundColor = blackColor();
-    box.style.opacity = "1.0";
-
-  } else if (colorPicker == 1) {
-    box.style.backgroundColor = randomColor();
-    box.style.filter = `brightness(200%)`
-    box.style.opacity = "1.0";
-
-  }  else if (colorPicker == 2) {
-    box.style.backgroundColor = gradient();
-    box.style.opacity = "1.0";
-
-    box.style.filter = `brightness(${shade}%)`
-    shade -= .8
-    if (shade < 0) {
-      shade = 100
-    }
-  } else if (colorPicker = 3) {
-    box.style.backgroundColor = clear();
-    box.style.opacity = "0.0";
-  }
-
-}));
-};
-
-makeBoard();
-
-
-function blackColor() {
-    colorPicker = 0
-    return "black"
-}
-
-function randomColor() {
-    colorPicker = 1
-    const randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-    return randomColor;
-}
-
-function gradient() {
-    colorPicker = 2
-    return "azure"
-}
-
-function clear() {
-    colorPicker = 3
-    return "white"
-}
-
-
-function gridSize() {
-  erase()
-  numOfRows = prompt("How big of a container? Max 150");
-  let loop = true;
-  while (loop) {
-      if (!numOfRows) {
-      numOfRows = prompt("Please enter a number");
-    } else if (parseInt(numOfRows) > 150)  {
-      numOfRows = prompt("Max is 150");
-    } else if (parseInt(numOfRows) < 1) {
-      numOfRows = prompt("Please enter a POSITIVE number");
-    } else if (isNaN(numOfRows)) {
-      numOfRows = prompt("Please enter a number");
-    } else {
-      loop = false
-    }
-    size.innerHTML = `${numOfRows} x ${numOfRows}`
-  }
-  makeBoard();
-}
-
-
-function erase() {
-  for(x = 0; x < (parseInt(numOfRows) * parseInt(numOfRows)); x++) {
-    board.removeChild(board.lastElementChild)
-  }
-}
-
-
-reset.addEventListener("click", function () {
-  erase()
-  makeBoard()});
-black.addEventListener("click", blackColor);
-rainbow.addEventListener("click", randomColor);
-changeSize.addEventListener("click", gridSize)
-trans.addEventListener("click", gradient);
-cleared.addEventListener("click", clear);
-
-</script>
+  </body>
+  <script src="logic.js"></script>
 </html>
